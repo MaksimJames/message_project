@@ -22,5 +22,9 @@ urlpatterns = [
     path('api', MessageAPI.as_view({
         'get': 'list',
         'post': 'create_message'
+    })),
+    path('api/<int:pk>/', MessageAPI.as_view({
+        'get': 'list',
+        'delete': 'destroy'
     }))
 ]

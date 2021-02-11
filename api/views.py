@@ -13,8 +13,11 @@ from rest_framework.views import APIView
 
 class MessageAPI(viewsets.ViewSet):
     
-    def list(self, request):
-        queryset = Message.objects.all()
+    def list(self, request, pk=None):
+        if pk:
+            queryset = Message.objects.filter(id=pk)
+        else:
+            queryset = Message.objects.all()
         serializer = MessageSerializer(queryset, many=True)
         Message.objects.update(
             is_read=True
@@ -34,5 +37,10 @@ class MessageAPI(viewsets.ViewSet):
             return Response({'Message created successfull': 'ok'}, status=200)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def destroy(self, request, pk=None):
+        Message.objects.filter(id=pk).delete()
+        
+        return Response('ok', status=status.HTTP_410_GONE)
         
         
