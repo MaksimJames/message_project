@@ -42,5 +42,15 @@ class MessageAPI(viewsets.ViewSet):
         Message.objects.filter(id=pk).delete()
         
         return Response('ok', status=status.HTTP_410_GONE)
+    
+    def read_unread_message(self, request):
+        
+        queryset = Message.objects.filter(is_read=False)
+        if queryset:
+            serializer = MessageSerializer(queryset, many=True)
+            Message.objects.update(is_read=True)
+            return Response(serializer.data)
+        else:
+            return Response('All message was read', status=status.HTTP_404_NOT_FOUND)
         
         
