@@ -29,7 +29,7 @@ class MessageAPI(viewsets.ViewSet):
                 header=serializer.data['header'],
                 body=serializer.data['body']
             )
-            is_sended(message.id)
+            is_sended.delay(message.id)
             
             return Response({'Message created successfull': 'ok'}, status=200)
         else:

@@ -11,6 +11,15 @@ services:
       depends_on:
         - db
 
+    db:
+      image: postgres:12
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=password
+        - POSTGRES_DB=db
+      volumes:
+        - postgres:/var/lib/postgresql/new
+
     rabbitmq:
       image: rabbitmq:3
       environment:
@@ -22,22 +31,13 @@ services:
 
     celery:
       build: .
-      command: celery -A api worker -l debug
+      command: celery -A api worker -l info
       volumes:
         - .:/app
       depends_on: 
         - rabbitmq
       links:
         - rabbitmq
-
-    db:
-      image: postgres:12
-      environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=password
-        - POSTGRES_DB=db
-      volumes:
-        - postgres:/var/lib/postgresql/new
 
 volumes:
   postgres:

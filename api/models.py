@@ -8,6 +8,11 @@ class Message(models.Model):
     is_sended = models.BooleanField(default=False, verbose_name='Сообщение отправлено', blank=True)
     is_read = models.BooleanField(default=False, verbose_name='Сообщение прочитано', blank=True)
     
+    def __str__(self):
+        return self.header
+    
+    def __repr__(self):
+        return self.header
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'

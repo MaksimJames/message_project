@@ -138,8 +138,8 @@ REST_FRAMEWORK = {
 
 
 #broker_url = 'amqp://rabbitmq:rabbitmq@localhost:5672/myvhost'
-CELERY_BROCKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672//'
+CELERY_BROCKER_URL = 'pyamqp://rabbitmq:rabbitmq@rabbitmq:5672//'
 CELERY_TIMEZONE = "Australia/Tasmania"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = 'db+postgresql+psycopg2://postgres:password@db/db'
