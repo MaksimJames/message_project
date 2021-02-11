@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+    app:
+      build: .
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/app
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db
+
+    rabbitmq:
+      image: rabbitmq:3
+      environment:
+        RABBITMQ_DEFAULT_USER: "rabbitmq"
+        RABBITMQ_DEFAULT_PASS: "rabbitmq"
+        RABBITMQ_DEFAULT_VHOST: "/"
+      ports:
+        - 5672:5672  
+
+    celery:
+      build: .
+      command: celery -A api worker -l debug
+      volumes:
+        - .:/app
+      depends_on: 
+        - rabbitmq
+      links:
+        - rabbitmq
+
+    db:
+      image: postgres:12
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=password
+        - POSTGRES_DB=db
+      volumes:
+        - postgres:/var/lib/postgresql/new
+
+volumes:
+  postgres:
