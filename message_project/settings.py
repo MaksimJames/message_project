@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'celery',
     'django_celery_results',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -129,15 +130,22 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+#Rest framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'api.throttles.PostRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'post': '10/min'
+    }
 }
 
 
-#broker_url = 'amqp://rabbitmq:rabbitmq@localhost:5672/myvhost'
+#Celery settings
 CELERY_BROCKER_URL = 'pyamqp://rabbitmq:rabbitmq@rabbitmq:5672//'
 CELERY_TIMEZONE = "Australia/Tasmania"
 CELERY_TASK_TRACK_STARTED = True
