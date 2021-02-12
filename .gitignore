@@ -1,3 +1,4 @@
 db.sqlite3
-**/migrations
-**/__pycache__
+/api/migrations
+/api/__pycache__
+/message_project/__pycache__
