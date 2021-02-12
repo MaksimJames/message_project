@@ -54,7 +54,7 @@ class MessageAPI(viewsets.ViewSet):
         '''
         Message.objects.filter(id=pk).delete()
         
-        return Response('ok', status=status.HTTP_410_GONE)
+        return Response('deleted', status=status.HTTP_410_GONE)
     
     def read_unread_message(self, request):
         '''
